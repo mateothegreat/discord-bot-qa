@@ -8,7 +8,8 @@ import { commandArgumentsTransformer } from './lib/CommandArgumentsTransformer';
 
 export class Bot {
 
-    public config;
+    private readonly config: BotConfig;
+
     private client: Client;
     private commands: { [ name: string ]: Command } = {};
 
@@ -23,7 +24,6 @@ export class Bot {
             console.log(`Loading command: ${ command } ..`);
 
             const f = require(command);
-
             const c = new f[ Object.keys(f)[ 0 ] ]();
 
             this.commands[ c.config.command ] = c;
