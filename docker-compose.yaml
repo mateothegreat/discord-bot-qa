@@ -1,0 +1,35 @@
+version: '3.6'
+
+services:
+
+  qabot-mysql:
+    image: mysql
+    container_name: qabot-mysql
+    restart: always
+    command: --default-authentication-plugin=mysql_native_password
+    ports:
+      - 3306:3306
+    environment:
+      MYSQL_USER: "mysql"
+      MYSQL_PASSWORD: "mysql"
+      MYSQL_ROOT_PASSWORD: "mysql"
+      MYSQL_ALLOW_EMPTY_PASSWORD: "no"
+      MYSQL_DATABASE: "qabot"
+    volumes:
+      - qabot-mysql:/var/lib/mysql
+    networks:
+      - qabot
+
+#
+# Internal Networks
+#
+networks:
+  qabot:
+    name: qabot
+
+#
+# Storage Volumes
+#
+volumes:
+  qabot-mysql:
+    driver: local
