@@ -12,7 +12,7 @@ export class Ping implements Command {
 
     };
 
-    public handle(commandMessage: CommandMessage): CommandResult {
+    public async handle(commandMessage: CommandMessage): Promise<CommandResult> {
 
         return {
 

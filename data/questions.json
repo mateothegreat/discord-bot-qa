@@ -1,0 +1,23 @@
+[
+    {
+        "question": "With git rebase you cannot revert.",
+        "type": "BOOLEAN",
+        "options": [
+            {
+                "option": true,
+                "type": "BOOLEAN",
+                "isCorrect": false
+            },
+            {
+                "option": false,
+                "type": "BOOLEAN",
+                "isCorrect": true
+            }
+        ],
+        "tags": [
+            {
+                "name": "git"
+            }
+        ]
+    }
+]

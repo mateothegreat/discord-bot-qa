@@ -1,6 +1,7 @@
 import { Entity, ManyToOne, Column } from 'typeorm';
 import { EntityBase } from '@nestjs.pro/common/dist/entities/EntityBase';
 import { Question } from '../Question';
+import { OptionType } from './OptionType';
 
 @Entity('questions_options')
 export class Option extends EntityBase {
@@ -10,6 +11,9 @@ export class Option extends EntityBase {
 
     @Column({ type: 'boolean' })
     public isCorrect: boolean;
+
+    @Column()
+    public type: OptionType;
 
     @Column({ type: 'text' })
     public option: string;

@@ -1,4 +1,4 @@
-import { Client, Message } from 'discord.js';
+import { Client, Message, MessageReaction, ClientUser } from 'discord.js';
 import { BotService } from './BotService';
 import * as Glob from 'glob';
 import { Command } from './lib/Command';
@@ -13,7 +13,7 @@ export class Bot {
     private client: Client;
     private commands: { [ name: string ]: Command } = {};
 
-    public constructor(private readonly botService: BotService) {
+    public constructor(public readonly botService: BotService) {
 
         this.config = new BotConfig();
 
@@ -52,7 +52,7 @@ export class Bot {
 
     }
 
-    private handleMessage(message: Message) {
+    private async handleMessage(message: Message) {
 
         if (!message.author.bot) {
 
@@ -64,13 +64,37 @@ export class Bot {
 
                 if (!this.commands[ parsed.name ].config.arguments && parsed.args.length === 0 || (this.commands[ parsed.name ].config.arguments && this.commands[ parsed.name ].config.arguments.length === parsed.args.length)) {
 
-                    const result = this.commands[ parsed.name ].handle({
+                    const result = await this.commands[ parsed.name ].handle({
 
                         args: commandArgumentsTransformer(this.commands[ parsed.name ].config, parsed.args)
 
-                    });
+                    }, this);
 
-                    message.reply(result.message);
+                    const reply = await message.reply(result.message);
+
+                    for (let i = 0; i < result.reactions.length; i++) {
+
+                        await reply.react(result.reactions[ i ].emoji);
+
+                    }
+
+                    const filter = (reaction: MessageReaction, user: ClientUser): boolean => {
+
+                        for (let i = 0; i < result.reactions.length; i++) {
+
+                            if (result.reactions[ i ].emoji === reaction.emoji.name) {
+
+                                this.commands[ parsed.name ].reacted(reaction, user);
+
+                            }
+
+                        }
+
+                        return false;
+
+                    };
+
+                    await reply.awaitReactions(filter);
 
                 } else {
 
@@ -85,6 +109,12 @@ export class Bot {
             }
 
         }
+
+    }
+
+    private static handleReaction(command: Command, reaction: MessageReaction, user: ClientUser): void {
+
+        command.reacted(reaction, user);
 
     }
 

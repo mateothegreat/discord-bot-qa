@@ -12,6 +12,9 @@ import { UsersRepository } from './Users/UsersRepository';
 import { BotService } from './Bot/BotService';
 import { QuestionsService } from './Questions/QuestionsService';
 import { AnswersService } from './Answers/AnswersService';
+import { TagsRepository } from './Questions/Tags/TagsRepository';
+import { Tag } from './Questions/Tags/Tag';
+import { TagsService } from './Questions/Tags/TagsService';
 
 dotenv.config();
 
@@ -36,6 +39,7 @@ dotenv.config();
                 Question,
                 Option,
                 Answer,
+                Tag,
                 User
 
             ]
@@ -47,7 +51,8 @@ dotenv.config();
             QuestionsRepository,
             OptionsRepository,
             AnswersRepository,
-            UsersRepository
+            UsersRepository,
+            TagsRepository
 
         ])
 
@@ -56,6 +61,7 @@ dotenv.config();
     providers: [
 
         QuestionsService,
+        TagsService,
         AnswersService,
         BotService
 

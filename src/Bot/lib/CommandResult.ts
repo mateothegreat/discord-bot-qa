@@ -1,5 +1,6 @@
 import { MessageEmbed } from 'discord.js';
 import { CommandResultScope } from './CommandResultScope';
+import { CommandReaction } from './CommandReaction';
 
 export class CommandResult {
 
@@ -8,5 +9,7 @@ export class CommandResult {
     public users?: Array<string>;
 
     public message: string | MessageEmbed;
+
+    public reactions?: Array<CommandReaction>;
 
 }
